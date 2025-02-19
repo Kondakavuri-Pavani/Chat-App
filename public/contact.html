@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        form { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ddd; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 10px; }
+        button { padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <input type="text" id="username" placeholder="Your Chat Username" required>
+        <textarea id="issue" placeholder="Describe your issue..." required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    <p><a href="index.html">Back to Chat</a></p>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const username = document.getElementById("username").value;
+            const issue = document.getElementById("issue").value;
+
+            const response = await fetch("/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, username, issue })
+            });
+
+            if (response.ok) {
+                alert("Your issue has been submitted!");
+                document.getElementById("contactForm").reset();
+            } else {
+                alert("Error submitting form. Please try again.");
+            }
+        });
+    </script>
+
+</body>
+</html>

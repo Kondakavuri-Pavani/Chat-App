@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        #chat-container { max-width: 400px; margin: auto; }
+        #messages { border: 1px solid #ddd; height: 300px; overflow-y: scroll; padding: 10px; }
+        input { width: 70%; padding: 10px; margin-top: 10px; }
+        button { padding: 10px; cursor: pointer; }
+        #username { width: 50%; padding: 10px; margin-bottom: 10px; }
+        #contact-form { display: none; margin-top: 20px; }
+        #contact-form input, #contact-form textarea { width: 80%; padding: 10px; margin-top: 10px; }
+        #contact-form button { padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Chat App</h2>
+    <div id="chat-container">
+        <input id="username" type="text" placeholder="Enter username">
+        <div id="messages"></div>
+        <input id="messageInput" type="text" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    
+    </div>
+<!-- Contact Us Button -->
+<a href="contact.html">
+    <button style="margin-top: 20px;">Contact Us</button>
+</a>
+
+    <script>
+        const socket = io();
+        let username = "";
+
+        // Prompt for username
+        document.getElementById("username").addEventListener("change", function () {
+            username = this.value;
+        });
+
+        function sendMessage() {
+    const messageInput = document.getElementById("messageInput");
+    const message = messageInput.value.trim();
+
+    if (!username) {
+        alert("Please enter a username.");
+        return;
+    }
+
+    if (message === "") return;
+    
+    if (message.length > 200) { // Example limit of 200 characters
+        alert("Message is too long! Max 200 characters.");
+        return;
+    }
+
+    socket.emit("chatMessage", { username, message });
+    messageInput.value = "";
+}
+
+        // Load chat history
+        socket.on("loadMessages", (messages) => {
+            const messagesDiv = document.getElementById("messages");
+            messages.forEach(msg => {
+                displayMessage(msg.username, msg.message);
+            });
+        });
+
+        // Receive messages
+        socket.on("chatMessage", (data) => {
+            displayMessage(data.username, data.message);
+        });
+
+        function displayMessage(username, message) {
+            const messagesDiv = document.getElementById("messages");
+            const messageElement = document.createElement("p");
+            messageElement.innerHTML = `<strong>${username}:</strong> ${message}`;
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+
+</body>
+</html>
