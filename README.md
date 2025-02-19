@@ -43,7 +43,6 @@ Contact Form: Users can report issues or provide feedback via a contact form.
 ## Installation
 Clone the Repository:
 git clone https://github.com/Kondakavuri-Pavani/Chat-App.git
-cd simple-chat-app
 
 Install Dependencies:
 npm install
