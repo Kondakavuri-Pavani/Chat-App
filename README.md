@@ -50,7 +50,6 @@ npm install
 Start the Application:
 npm start
 
-The chat application will be accessible at http://localhost:3000/
 
 Browser Link:https://55ffwx-3000.bytexl.dev
 
