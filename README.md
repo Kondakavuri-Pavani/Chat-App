@@ -51,8 +51,6 @@ Start the Application:
 npm start
 
 
-Browser Link:https://55ffwx-3000.bytexl.dev
-
 Main Page
 ![image](https://github.com/user-attachments/assets/4ab5731c-d357-4614-8500-2b9602a7734c)
 
